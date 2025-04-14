@@ -7,16 +7,14 @@ This project combines Librespot, Snapserver, and ESPHome control over a Marantz 
 ## Hardware Setup
 
 Below is an overview of the hardware used and how they connect:
-1.	Marantz Amplifier – The classic stereo amplifier that accepts RC5 IR or direct signals.
+1.	Marantz Amplifier – The classic stereo amplifier that accepts RC5 over a RCA input (remote control in).
 2.	NodeMCU (ESP8266 or ESP32) – Flashed with ESPHome firmware using the marantz_remote.yaml file.
-3.	RC5 Circuit – A small circuit that includes a diode (IR LED, or in some setups a dedicated circuit) that transmits RC5 signals from the NodeMCU to the Marantz amplifier via the remote control input port. 
+3.	RC5 Circuit – A small circuit that includes a diode that transmits RC5 signals from the NodeMCU to the Marantz amplifier via the remote control input port. Diode prevents that current is flowing the other way around. 
 4.	Linux Machine – Runs Docker for the Librespot + Snapserver “Server” container. Also runs Snapclient to receive audio from Snapserver. The audio output goes to a USB DAC or onboard sound, which feeds into the Marantz amplifier.
 
 ### Physical Connections
 1.	Linux Machine ↔ (USB) ↔ USB DAC → (RCA cable) → Marantz Amp
-2.	NodeMCU → (GPIO pin driving RC circuit) → (RCA cable) → Marantz Amp
-
-You can also have the NodeMCU send IR signals directly if your Marantz is in view of an IR LED. If your amplifier has a rear RC5 terminal, you can wire it directly (with a suitable resistor/diode).
+2.	NodeMCU → (GPIO pin with diode) → (RCA cable) → Marantz Amp
 
 ## Usage Instructions
 ### Build and Run the Server
@@ -30,7 +28,7 @@ docker-compose up -d
 
 ### Configure and Start Snapclient
 1.	Install snapclient on the same (or another) machine.
-2.	Copy or adapt snapclient.conf from the snapclient/ directory to `/etc/default/snapclient`.
+2.	Copy or adapt `snapclient` from the `snapclient/ directory to `/etc/default/snapclient`.
 3.	Start snapclient:
 ```bash
 snapclient
