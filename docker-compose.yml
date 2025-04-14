@@ -1,0 +1,10 @@
+version: "3"
+services:
+    multiroom-librespot-marantz:
+        container_name: multiroom-librespot-marantz
+        restart: unless-stopped
+        network_mode: host
+        environment:
+            - DEVICE_NAME=Marantz
+            - CACHE=true
+        image: tjibbevanderlaan/multiroom-librespot-marantz:latest

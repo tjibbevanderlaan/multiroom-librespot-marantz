@@ -1,0 +1,103 @@
+# IR Command sheet from:
+# https://www.marantz.com.cn/on/demandware.static/-/Library-Sites-marantz_apac_shared/default/dwbe9af054/archive-downloads/marantz-2014-ir-command-sheet.xls
+# Understanding of RC5-extended commands:
+# https://smallhacks.wordpress.com/2021/07/07/controlling-marantz-amplifier-using-arduino-via-remote-socket/
+# Based on this script, created a Python implementation to transform RC5-extended to raw timeseries for ESPHome:
+# https://gist.github.com/tjibbevanderlaan/0ebf0ca73cf4686971e9260dcfff176c
+# 
+esphome:
+  name: marantz_remote
+  friendly_name: ${friendly_name}
+esp8266:
+  board: nodemcuv2
+substitutions:
+  friendly_name: "Marantz Remote"
+remote_transmitter:
+  pin: GPIO16
+  carrier_duty_percent: 100%
+web_server:
+  port: 80
+
+button:
+  - platform: template
+    name: volume_up
+    on_press:
+      then:
+        - logger.log: Volume up
+        - remote_transmitter.transmit_rc5:
+            address: 0x10
+            command: 0x10
+  - platform: template
+    name: volume_down
+    on_press:
+      then:
+        - logger.log: Volume down
+        - remote_transmitter.transmit_rc5:
+            address: 0x10
+            command: 0x11
+  - platform: template
+    name: standby
+    on_press:
+      then:
+        - logger.log: Standby
+        - remote_transmitter.transmit_rc5:
+            address: 0x10
+            command: 0x0C
+  - platform: template
+    name: mute_toggle
+    on_press:
+      then:
+        - logger.log: Mute toggle
+        - remote_transmitter.transmit_rc5: 
+            address: 0x10
+            command: 0x0D
+  - platform: template
+    name: mute_off
+    on_press:
+      then:
+        - logger.log: Mute off
+        # Address: 16, Command: 13, Extension: 1
+        - remote_transmitter.transmit_raw: 
+            code: [-889, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -4445, 889, -889, 889, -1778, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -889, 889, -1778, 889, -101346, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -4445, 889, -889, 889, -1778, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -889, 889, -1778, 889, -1] 
+  - platform: template
+    name: mute_on
+    on_press:
+      then:
+        - logger.log: Mute on
+        # Address: 16, Command: 13, Extension: 0
+        - remote_transmitter.transmit_raw: 
+            code: [-889, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -4445, 889, -889, 889, -1778, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -889, 889, -889, 889, -102235, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -4445, 889, -889, 889, -1778, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -889, 889, -889, 889, -889]
+  - platform: template
+    name: power_on
+    on_press:
+      then:
+        - logger.log: Power on
+        # Address: 16, Command: 12, Extension: 01
+        - remote_transmitter.transmit_raw: 
+            code: [-889, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -4445, 889, -889, 889, -1778, 889, -889, 1778, -889, 889, -889, 889, -889, 889, -889, 889, -889, 889, -889, 889, -1778, 889, -101346, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -4445, 889, -889, 889, -1778, 889, -889, 1778, -889, 889, -889, 889, -889, 889, -889, 889, -889, 889, -889, 889, -1778, 889, -1] 
+  - platform: template
+    name: power_off
+    on_press:
+      then:
+        - logger.log: Power off
+        # Address: 16, Command: 12, Extension: 02
+        - remote_transmitter.transmit_raw: 
+            code: [-889, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -4445, 889, -889, 889, -1778, 889, -889, 1778, -889, 889, -889, 889, -889, 889, -889, 889, -889, 889, -1778, 1778, -102235, 889, -889, 1778, -1778, 1778, -889, 889, -889, 889, -889, 889, -4445, 889, -889, 889, -1778, 889, -889, 1778, -889, 889, -889, 889, -889, 889, -889, 889, -889, 889, -1778, 1778, -889] 
+  
+# Enable logging
+logger:
+
+ota:
+  password: !secret ota_password
+  platform: esphome
+
+wifi:
+  ssid: !secret wifi_ssid
+  password: !secret wifi_password
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: ${friendly_name}
+    password: !secret ap_password_marantz_remote
+
+captive_portal:
