@@ -28,7 +28,7 @@ docker-compose up -d
 
 ### Configure and Start Snapclient
 1.	Install snapclient on the same (or another) machine.
-2.	Copy or adapt `snapclient` from the `snapclient/ directory to `/etc/default/snapclient`.
+2.	Copy or adapt `snapclient` from the `snapclient/` directory to `/etc/default/snapclient`.
 3.	Start snapclient:
 ```bash
 snapclient
@@ -43,7 +43,7 @@ snapclient
 
 ### Test Playback and Amplifier Control
 - Start streaming from Spotify to "Marantz" (the one created by your Docker container).
-- As soon as playback starts or stops, the server script will send an HTTP request to your NodeMCU, prompting the amplifier to turn on/off or switch inputs.
+- As soon as playback starts or stops, the server script will send an HTTP request to your NodeMCU, prompting the amplifier to turn on/off or mute on paused playback.
 
 
 ## Contributing

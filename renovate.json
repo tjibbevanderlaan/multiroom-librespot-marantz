@@ -1,0 +1,13 @@
+{
+  "extends": ["config:base"],
+  "packageRules": [
+    {
+      // This rule watches for Dockerfiles or packages with name "snapcast" or "librespot"
+      "matchDatasources": ["docker", "apk"],
+      "matchPackagePatterns": ["snapcast", "librespot"],
+      "updateTypes": ["digest", "minor", "patch", "major"],
+      "branchName": "renovate/auto-updates",
+      "prPriority": 1
+    }
+  ]
+}
