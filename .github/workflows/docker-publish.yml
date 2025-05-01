@@ -30,7 +30,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
       - name: Build & push
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           context: ./snapserver         
           file: ./snapserver/Dockerfile  # <─ welk Dockerfile
