@@ -3,7 +3,9 @@ name: Docker Build and Publish
 on:
   push:
     branches:
-      - main  # or "master", or a release branch, etc.
+      - main
+    paths:
+      - 'snapserver/**'
 
 jobs:
   build-and-push:
@@ -27,14 +29,13 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image
-        run: |
-          docker build \
-            -t tjibbevanderlaan/multiroom-librespot-marantz:latest \
-            --build-arg LIBRESPOT_VERSION=0.6.0-r0 \
-            --build-arg SNAPCAST_VERSION=0.31.0-r0 \
-            .
-
-      - name: Push Docker image
-        run: |
-          docker push tjibbevanderlaan/multiroom-librespot-marantz:latest
+      - name: Build & push
+        uses: docker/build-push-action@v5
+        with:
+          context: ./snapserver         
+          file: ./snapserver/Dockerfile  # <─ welk Dockerfile
+          push: true
+          tags: tjibbevanderlaan/multiroom-librespot-marantz:latest
+          build-args: |
+            LIBRESPOT_VERSION=0.6.0-r0
+            SNAPCAST_VERSION=0.31.0-r0
