@@ -6,7 +6,7 @@ on:
       - main
     paths:
       - 'snapserver/**'
-    workflow_dispatch:
+  workflow_dispatch:
 
 jobs:
   build-and-push:
