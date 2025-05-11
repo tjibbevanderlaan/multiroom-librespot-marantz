@@ -1,12 +1,25 @@
 {
-  "extends": ["config:base"],
+  "extends": [
+    "config:recommended"
+  ],
   "packageRules": [
     {
-      "matchDatasources": ["docker", "apk"],
-      "matchPackagePatterns": ["snapcast", "librespot"],
-      "updateTypes": ["digest", "minor", "patch", "major"],
+      "matchDatasources": [
+        "docker",
+        "apk"
+      ],
+      "matchUpdateTypes": [
+        "digest",
+        "minor",
+        "patch",
+        "major"
+      ],
       "branchName": "renovate/auto-updates",
-      "prPriority": 1
+      "prPriority": 1,
+      "matchPackageNames": [
+        "/snapcast/",
+        "/librespot/"
+      ]
     }
   ]
 }
