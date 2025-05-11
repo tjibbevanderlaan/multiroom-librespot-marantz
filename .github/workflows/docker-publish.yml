@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'snapserver/**'
+    workflow_dispatch:
 
 jobs:
   build-and-push:
@@ -33,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: ./snapserver         
-          file: ./snapserver/Dockerfile  # <─ welk Dockerfile
+          file: ./snapserver/Dockerfile
           push: true
           tags: tjibbevanderlaan/multiroom-librespot-marantz:latest
           build-args: |
