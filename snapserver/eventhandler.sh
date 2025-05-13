@@ -8,8 +8,8 @@
 # Tjibbe van der Laan (2025)
 # 
 
-# ESPHome IP address of the Marantz Remote
-ipaddress=""
+# ESPHome IP address of the Marantz Remote. Please specify in Dockerfile
+ipaddress="${ESPHOME_IPADDRESS:?You must set ESPHOME_IPADDRESS}"
 
 # Environment variable for the Player event
 player_event="${PLAYER_EVENT}"

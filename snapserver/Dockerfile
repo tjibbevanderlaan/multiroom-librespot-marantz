@@ -13,5 +13,5 @@ COPY eventhandler.sh /
 RUN chmod -R 777 /eventhandler.sh
 CMD ["/run.sh"]
 
-ENV DEVICE_NAME=Snapcast
+ENV DEVICE_NAME=Marantz
 EXPOSE 1704/tcp 1705/tcp

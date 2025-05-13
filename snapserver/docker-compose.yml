@@ -7,4 +7,5 @@ services:
         environment:
             - DEVICE_NAME=Marantz
             - CACHE=true
+            - ESPHOME_IPADDRESS=
         image: tjibbevanderlaan/multiroom-librespot-marantz:latest
