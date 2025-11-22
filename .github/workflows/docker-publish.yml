@@ -9,8 +9,8 @@ on:
 
 env:
   IMAGE_NAME: tjibbevanderlaan/multiroom-librespot-marantz
-  LIBRESPOT_VERSION: 0.6.0-r0
-  SNAPCAST_VERSION: 0.31.0-r0
+  LIBRESPOT_VERSION: 0.8.0-r0
+  SNAPCAST_VERSION: 0.34.0-r0
 
 jobs:
   build:
