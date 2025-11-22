@@ -1,6 +1,6 @@
 FROM alpine:edge
 
-ARG LIBRESPOT_VERSION=0.6.0-r0
+ARG LIBRESPOT_VERSION=0.8.0-r0
 ARG SNAPCAST_VERSION=0.31.0-r0
 
 RUN apk add --no-cache bash sed curl
