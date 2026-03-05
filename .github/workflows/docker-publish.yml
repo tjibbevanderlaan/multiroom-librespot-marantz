@@ -33,7 +33,7 @@ jobs:
       # -------- tags & labels ---------------------------
       - name: Docker metadata (build/run numbers)
         id: meta
-        uses: docker/metadata-action@v5
+        uses: docker/metadata-action@v6
         with:
           images: ${{ env.IMAGE_NAME }}
           tags: |
